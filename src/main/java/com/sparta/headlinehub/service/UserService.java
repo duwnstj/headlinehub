@@ -17,9 +17,19 @@ public class UserService {
 
     /* 회원 가입 */
     public PostUserSaveResponseDto saveUser(PostUserSaveRequestDto requestDto) {
+
+        // 이메일 중복 확인
+        boolean overlap = repository.existsByEmail(requestDto.getEmail());
+        if (overlap) {
+            throw new IllegalArgumentException("이미 사용중인 ID 입니다.");
+        }
+
+
+        // 비밀번호 암호화
         String pw = encode.encode(requestDto.getPw());
 
-        User user = new User(requestDto,pw);
+        User user = new User(requestDto, pw);
+
         User saveUser = repository.save(user);
 
         PostUserSaveResponseDto responseDto = new PostUserSaveResponseDto(saveUser);

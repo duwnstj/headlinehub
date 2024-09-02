@@ -3,12 +3,15 @@ package com.sparta.headlinehub.controller;
 import com.sparta.headlinehub.dto.user.request.PostUserSaveRequestDto;
 import com.sparta.headlinehub.dto.user.response.PostUserSaveResponseDto;
 import com.sparta.headlinehub.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
+@Validated
 public class UserController {
 
     private final UserService service;
@@ -19,7 +22,7 @@ public class UserController {
      * @return 가입한 유저 이름
      */
     @PostMapping()
-    public PostUserSaveResponseDto saveUser(@RequestBody PostUserSaveRequestDto requestDto) {
+    public PostUserSaveResponseDto saveUser(@Valid @RequestBody PostUserSaveRequestDto requestDto) {
         return service.saveUser(requestDto);
     }
 
