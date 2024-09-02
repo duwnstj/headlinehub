@@ -27,13 +27,8 @@ public class ProfileService {
     public GetProfileDetailResponseDto getDetailProfile(Long userId) {
         User user = userRepository.findById(userId).
                 orElseThrow(() -> new NullPointerException("user 를 찾을 수 없습니다."));
-        List<Board> boardsList = boardRepository.findByUserId(userId);
+        List<Board> boardsList = boardRepository.getBoardIdsByUserId(userId);
 
-        List<GetDetailResponseDto> dtoList = new ArrayList<>();
-        for (User user : dtoList) {
-            dtoList.add(new GetDetailResponseDto(user
-            ));
-        }
-        return new GetProfileDetailResponseDto(user , dtoList);
+        return new GetProfileDetailResponseDto(user , boardsList);
     }
 }
