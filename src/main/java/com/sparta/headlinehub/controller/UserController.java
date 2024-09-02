@@ -4,10 +4,7 @@ import com.sparta.headlinehub.dto.user.request.PostUserSaveRequestDto;
 import com.sparta.headlinehub.dto.user.response.PostUserSaveResponseDto;
 import com.sparta.headlinehub.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
@@ -29,4 +26,8 @@ public class UserController {
     // 회원 로그인
 
     // 회원 탈퇴
+    @DeleteMapping("/{id}")
+    public Long deleteUser(@PathVariable Long id) {
+        return service.deleteUser(id);
+    }
 }
