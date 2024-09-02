@@ -5,7 +5,6 @@ import com.sparta.headlinehub.dto.user.response.PostUserSaveResponseDto;
 import com.sparta.headlinehub.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,7 +20,7 @@ public class UserController {
      * @return 가입한 유저 이름
      */
     @PostMapping()
-    public PostUserSaveResponseDto saveUser(@Validated @RequestBody PostUserSaveRequestDto requestDto) {
+    public PostUserSaveResponseDto saveUser(@Valid @RequestBody PostUserSaveRequestDto requestDto) {
         return service.saveUser(requestDto);
     }
 
