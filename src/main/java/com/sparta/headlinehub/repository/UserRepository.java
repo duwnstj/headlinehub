@@ -1,4 +1,4 @@
 package com.sparta.headlinehub.repository;
 
-public interface TestRepository {
+public interface UserRepository {
 }

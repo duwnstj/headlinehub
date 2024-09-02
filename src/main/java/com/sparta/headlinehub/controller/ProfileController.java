@@ -1,4 +1,4 @@
 package com.sparta.headlinehub.controller;
 
-public class TestController {
+public class ProfileController {
 }
