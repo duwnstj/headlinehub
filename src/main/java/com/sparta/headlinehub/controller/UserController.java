@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
-@Validated
 public class UserController {
 
     private final UserService service;
@@ -22,7 +21,7 @@ public class UserController {
      * @return 가입한 유저 이름
      */
     @PostMapping()
-    public PostUserSaveResponseDto saveUser(@Valid @RequestBody PostUserSaveRequestDto requestDto) {
+    public PostUserSaveResponseDto saveUser(@Validated @RequestBody PostUserSaveRequestDto requestDto) {
         return service.saveUser(requestDto);
     }
 
