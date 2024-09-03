@@ -3,11 +3,9 @@ package com.sparta.headlinehub.controller;
 import com.sparta.headlinehub.dto.user.request.PostUserSaveRequestDto;
 import com.sparta.headlinehub.dto.user.response.PostUserSaveResponseDto;
 import com.sparta.headlinehub.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
@@ -22,11 +20,19 @@ public class UserController {
      * @return 가입한 유저 이름
      */
     @PostMapping()
-    public PostUserSaveResponseDto saveUser(@RequestBody PostUserSaveRequestDto requestDto) {
+    public PostUserSaveResponseDto saveUser(@Valid @RequestBody PostUserSaveRequestDto requestDto) {
         return service.saveUser(requestDto);
     }
 
     // 회원 로그인
 
-    // 회원 탈퇴
+    /**
+     * 회원 탈퇴
+     * @param id 삭제할 유저 아이디값
+     * @return 삭제 성공한 유저 아이디
+     */
+    @DeleteMapping("/{id}")
+    public Long deleteUser(@PathVariable Long id) {
+        return service.deleteUser(id);
+    }
 }
