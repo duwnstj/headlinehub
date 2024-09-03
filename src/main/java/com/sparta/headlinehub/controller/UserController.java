@@ -27,7 +27,11 @@ public class UserController {
         return service.saveUser(requestDto);
     }
 
-    // 회원 로그인
+    /**
+     * 로그인
+     * @param requestDto 유저 이메일, 유저 비밀번호
+     * @return 로그인 한 유저 이메일, JWT 토큰 값
+     */
     @PostMapping("/logins")
     public PostUserLoginResponseDto loginUser(@Valid @RequestBody PostUserLoginRequestDto requestDto) {
         return service.loginUser(requestDto);
