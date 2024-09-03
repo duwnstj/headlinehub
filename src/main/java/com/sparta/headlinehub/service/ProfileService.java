@@ -1,7 +1,9 @@
 package com.sparta.headlinehub.service;
 
 import com.sparta.headlinehub.dto.board.response.GetDetailResponseDto;
+import com.sparta.headlinehub.dto.profile.request.PutProfileUpdateRequestDto;
 import com.sparta.headlinehub.dto.profile.response.GetProfileDetailResponseDto;
+import com.sparta.headlinehub.dto.profile.response.PutProfileUpdateResponseDto;
 import com.sparta.headlinehub.entity.Board;
 import com.sparta.headlinehub.entity.Profile;
 import com.sparta.headlinehub.entity.User;
@@ -31,5 +33,14 @@ public class ProfileService {
         List<Board> boardsList = boardRepository.getBoardIdsByUserId(userId);
         List<GetDetailResponseDto> dtoList = boardsList.stream().map(GetDetailResponseDto::new).toList();
         return new GetProfileDetailResponseDto(user,dtoList);
+    }
+
+    //패스워드 수정
+    public PutProfileUpdateResponseDto updatePassword(Long userId, PutProfileUpdateRequestDto requestDto) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new NullPointerException("유저가 없습니다."));
+
+        if(user.getPw().equals(requestDto.getPw())){
+
+        }
     }
 }

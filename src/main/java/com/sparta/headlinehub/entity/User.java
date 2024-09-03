@@ -29,4 +29,7 @@ public class  User extends Timestamped{
         this.userName = requestDto.getUserName();
         this.phoneNumber = requestDto.getPhoneNumber();
     }
+
+    public void update(){
+    }
 }
