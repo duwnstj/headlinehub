@@ -26,7 +26,11 @@ public class UserController {
 
     // 회원 로그인
 
-    // 회원 탈퇴
+    /**
+     * 회원 탈퇴
+     * @param id 삭제할 유저 아이디값
+     * @return 삭제 성공한 유저 아이디
+     */
     @DeleteMapping("/{id}")
     public Long deleteUser(@PathVariable Long id) {
         return service.deleteUser(id);
