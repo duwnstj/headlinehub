@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "user")
 @Getter
 @NoArgsConstructor
-public class User extends Timestamped{
+public class  User extends Timestamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
