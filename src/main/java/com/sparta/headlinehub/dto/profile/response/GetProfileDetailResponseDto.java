@@ -12,10 +12,10 @@ public class GetProfileDetailResponseDto {
     private final String userName;
     private final String email;
     private final String phoneNumber;
-    private final List<Board> posts;
+    private final List<GetDetailResponseDto> posts;
 
 
-    public GetProfileDetailResponseDto(User user, List<Board> boardsList) {
+    public GetProfileDetailResponseDto(User user, List<GetDetailResponseDto> boardsList) {
         this.userName = user.getUserName();
         this.email = user.getEmail();
         this.phoneNumber = user.getPhoneNumber();

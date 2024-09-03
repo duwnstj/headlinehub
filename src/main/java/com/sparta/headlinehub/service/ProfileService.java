@@ -8,6 +8,7 @@ import com.sparta.headlinehub.entity.User;
 import com.sparta.headlinehub.repository.BoardRepository;
 import com.sparta.headlinehub.repository.ProfileRepository;
 import com.sparta.headlinehub.repository.UserRepository;
+import jakarta.persistence.Table;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +29,7 @@ public class ProfileService {
         User user = userRepository.findById(userId).
                 orElseThrow(() -> new NullPointerException("user 를 찾을 수 없습니다."));
         List<Board> boardsList = boardRepository.getBoardIdsByUserId(userId);
-
-        return new GetProfileDetailResponseDto(user , boardsList);
+        List<GetDetailResponseDto> dtoList = boardsList.stream().map(GetDetailResponseDto::new).toList();
+        return new GetProfileDetailResponseDto(user,dtoList);
     }
 }
