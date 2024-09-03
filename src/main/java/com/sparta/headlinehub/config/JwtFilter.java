@@ -1,6 +1,5 @@
 package com.sparta.headlinehub.config;
 
-import com.sun.net.httpserver.HttpServer;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -10,11 +9,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 @Slf4j
 @RequiredArgsConstructor
+@Component
 public class JwtFilter implements Filter {
 
     private final JwtUtil jwtUtil;
@@ -33,7 +34,7 @@ public class JwtFilter implements Filter {
         String url = httpRequest.getRequestURI();
 
         // 해당 컨트롤러는 토큰 검사를 안한다.
-        if(url.startsWith("/users") || url.startsWith("/logins")) {
+        if(url.equals("/users") || url.startsWith("/users/logins")) {
             chain.doFilter(request, response);
             return;
         }
