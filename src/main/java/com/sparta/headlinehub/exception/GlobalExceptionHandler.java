@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
     }
 
-    /* 이메일 중복 */
+    /* 이메일 중복 (상태코드 409) */
     @ExceptionHandler(DuplicateEmailException.class)
     public ResponseEntity<String> handlerDuplicateIdException(DuplicateEmailException e) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
