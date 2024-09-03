@@ -1,22 +1,21 @@
 package com.sparta.headlinehub.dto.board.response;
 
-import com.sparta.headlinehub.entity.Board;
+import com.sparta.headlinehub.dto.user.UserDto;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Getter
 @RequiredArgsConstructor
 public class GetDetailResponseDto {
 
-    private Long id;
-    private String title;
-    private String content;
 
-    public GetDetailResponseDto(Board board){
-        this.id = board.getId();
-        this.title = board.getTitle();
-        this.content = board.getContent();
-    }
+    private final UserDto user;
+    private final String title;
+    private final String content;
+    private final LocalDateTime creationDate;
+    private final LocalDateTime modifiedDate;
+
 
 }
