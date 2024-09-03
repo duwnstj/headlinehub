@@ -22,6 +22,6 @@ public class Profile extends Timestamped{
     @JoinColumn(name = "boardId")
     private Board board;
 
-
+//test
 
 }
