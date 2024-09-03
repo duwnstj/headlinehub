@@ -8,6 +8,9 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "user")
 @Getter
@@ -22,6 +25,10 @@ public class User extends Timestamped{
     private String pw;
     private String userName;
     private String phoneNumber;
+
+    @OneToMany(mappedBy = "user")
+    List<Board> boardList = new ArrayList<>();
+
 
     public User(PostUserSaveRequestDto requestDto, String pw) {
         this.email = requestDto.getEmail();
