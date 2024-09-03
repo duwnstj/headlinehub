@@ -51,7 +51,7 @@ public class BoardController {
 
     /**
      * 게시물 수정
-     * 조건 : 게시물 수정한 사람만 수정 가능함
+     * 조건 : 게시물 작성한 사람만 수정 가능함
      *
      * @return title, content,userName
      * @Param boardId(게시물 고유번호), requestDto(title, content)
@@ -64,4 +64,19 @@ public class BoardController {
 
         return ResponseEntity.ok(boardService.updateboard(boardId, userId, requestDto));
     }
+    /**
+     * 게시물 삭제
+     * 조건 : 게시물 작성한 사람만 삭제 가능함
+     *
+     *
+     * @Param userId
+     */
+
+    @DeleteMapping("/{boardId}/users/{userId}")
+    public void deleteBoard(
+            @PathVariable Long boardId,
+            @PathVariable Long userId){
+        boardService.deleteBoard(boardId,userId);
+    }
+
 }

@@ -80,4 +80,14 @@ public class BoardService {
 
 
     }
+
+    @Transactional
+    public void deleteBoard(Long boardId, Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(()->new ResourceNotFoundException("유저를 찾을 수 없습니다."));
+        if(!Objects.equals(user.getId(), userId)){
+            throw new InvalidPrivilegeException("게시물 삭제 권한이 없습니다.");
+        }
+        boardRepository.deleteById(boardId);
+    }
 }
