@@ -60,7 +60,8 @@ public class BoardController {
     public ResponseEntity<PostUpdateResponseDto> updateBoard(
             @PathVariable Long boardId,
             @PathVariable Long userId,
-            @RequestBody PostUpdateRequestDto requestDto) {
+            @RequestBody PostUpdateRequestDto requestDto
+             ) {
 
         return ResponseEntity.ok(boardService.updateboard(boardId, userId, requestDto));
     }
