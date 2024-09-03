@@ -1,5 +1,7 @@
 package com.sparta.headlinehub.exception;
 
+import com.sparta.headlinehub.exception.follow.DuplicateFollowingException;
+import com.sparta.headlinehub.exception.follow.WrongFollowingException;
 import com.sparta.headlinehub.exception.user.DuplicateEmailException;
 import com.sparta.headlinehub.exception.user.MismatchPasswordException;
 import com.sparta.headlinehub.exception.user.UserNotFindException;
@@ -25,6 +27,18 @@ public class GlobalExceptionHandler {
     /* 이메일 중복 (상태코드 409) */
     @ExceptionHandler(DuplicateEmailException.class)
     public ResponseEntity<String> handlerDuplicateIdException(DuplicateEmailException e) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+    }
+
+    /* 스스로를 팔로잉 (상태코드 400) */
+    @ExceptionHandler(WrongFollowingException.class)
+    public ResponseEntity<String> handlerWrongFollowingException(WrongFollowingException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+    /* 팔로잉 중복 (상태코드 409) */
+    @ExceptionHandler(DuplicateFollowingException.class)
+    public ResponseEntity<String> handlerDuplicateFollowingException(DuplicateFollowingException e) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
 }

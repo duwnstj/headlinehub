@@ -5,6 +5,8 @@ import com.sparta.headlinehub.dto.follow.request.PostFollowingSaveRequestDto;
 import com.sparta.headlinehub.dto.follow.response.PostFollowingSaveResponseDto;
 import com.sparta.headlinehub.entity.Follow;
 import com.sparta.headlinehub.entity.User;
+import com.sparta.headlinehub.exception.follow.DuplicateFollowingException;
+import com.sparta.headlinehub.exception.follow.WrongFollowingException;
 import com.sparta.headlinehub.exception.user.UserNotFindException;
 import com.sparta.headlinehub.repository.FollowRepository;
 import com.sparta.headlinehub.repository.UserRepository;
@@ -26,6 +28,16 @@ public class FollowService {
         // 팔로잉 할 유저 찾기
         User user = findUser(requestDto.getId());
 
+        // 로그인한 본인을 팔로잉 하는지 검사
+        if (my.getId().equals(user.getId())) {
+            throw new WrongFollowingException("잘못된 팔로잉 입니다.");
+        }
+
+        // 이미 팔로잉 했는지 검사
+        if (checkRedundancy(my.getId(), user.getId())) {
+            throw new DuplicateFollowingException("이미 팔로잉한 유저 입니다.");
+        }
+
         // 팔로잉 Entity 저장 후 DB 저장
         Follow following = new Follow(my, user);
         followRepository.save(following);
@@ -41,5 +53,10 @@ public class FollowService {
         return userRepository.findById(userId).orElseThrow(
                 () -> new UserNotFindException("유저를 찾을 수 없습니다.")
         );
+    }
+
+    /* 이미 팔로잉 했는지 검사 */
+    private boolean checkRedundancy(Long myId, Long userId) {
+        return followRepository.existsByFollowingIdAndFollowerId(myId, userId);
     }
 }
