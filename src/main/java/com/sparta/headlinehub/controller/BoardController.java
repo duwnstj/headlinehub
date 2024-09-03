@@ -69,7 +69,7 @@ public class BoardController {
      * 게시물 삭제
      * 조건 : 게시물 작성한 사람만 삭제 가능함
      *
-     *
+     * //
      * @Param userId
      */
 
