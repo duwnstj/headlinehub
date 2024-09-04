@@ -55,7 +55,7 @@ public class FollowController {
 
     // 친구 삭제
     @DeleteMapping("/unfollow/{followUserId}")
-    public Long deleteFollow(@Auth AuthUser authUser, @PathVariable Long followId) {
-        return service.deleteFollow(authUser, followId);
+    public Long deleteFollow(@Auth AuthUser authUser, @PathVariable Long followUserId) {
+        return service.deleteFollow(authUser, followUserId);
     }
 }

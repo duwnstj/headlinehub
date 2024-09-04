@@ -88,16 +88,16 @@ public class FollowService {
     }
 
     /* 언팔로우 */
-    public Long deleteFollow(AuthUser authUser, Long followId) {
+    public Long deleteFollow(AuthUser authUser, Long followUserId) {
         // 유저 인증
         User my = findUser(authUser.getId());
 
         // 언팔로우 할 유저
-        User user = findUser(followId);
+        User user = findUser(followUserId);
 
         // 팔로우 되어 있는지 확인
         if(!checkRedundancy(my.getId(), user.getId())) {
-            throw new IllegalArgumentException("팔로우 되어 있지 않습니다.");
+            throw new UserNotFindException("팔로우 되어 있지 않습니다.");
         }
 
         // entity 객체 가져오기
@@ -106,7 +106,7 @@ public class FollowService {
         //삭제
         followRepository.delete(follow);
 
-        return follow.getId();
+        return followUserId;
     }
 
     /* 유저 ID 찾기 */
