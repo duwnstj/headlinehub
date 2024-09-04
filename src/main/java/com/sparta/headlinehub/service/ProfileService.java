@@ -9,6 +9,7 @@ import com.sparta.headlinehub.dto.profile.response.PutProfileUpdateResponseDto;
 import com.sparta.headlinehub.entity.Board;
 import com.sparta.headlinehub.entity.User;
 import com.sparta.headlinehub.exception.profile.IncorrectPasswordException;
+import com.sparta.headlinehub.exception.profile.SamePasswordException;
 import com.sparta.headlinehub.exception.user.UserNotFindException;
 import com.sparta.headlinehub.repository.BoardRepository;
 import com.sparta.headlinehub.repository.ProfileRepository;
@@ -49,7 +50,11 @@ public class ProfileService {
         User user = findUser(userId);
 
         if(!encode.matches(requestDto.getPw(),user.getPw())){
-              throw new IncorrectPasswordException("비밀번호가 잘못되었습니다.");
+            throw new IncorrectPasswordException("비밀번호가 잘못되었습니다.");
+        }
+
+        if(requestDto.getPw().equals(requestDto.getUpdatePw())){
+            throw new SamePasswordException("현재 비밀번호와 같은 비밀번호 입니다.");
         }
         String pw = encode.encode(requestDto.getPw());
         user.update(pw);
