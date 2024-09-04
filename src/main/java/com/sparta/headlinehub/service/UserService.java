@@ -8,11 +8,12 @@ import com.sparta.headlinehub.dto.user.request.PostUserSaveRequestDto;
 import com.sparta.headlinehub.dto.user.response.PostUserLoginResponseDto;
 import com.sparta.headlinehub.dto.user.response.PostUserSaveResponseDto;
 import com.sparta.headlinehub.entity.User;
+import com.sparta.headlinehub.exception.user.DuplicateEmailException;
+import com.sparta.headlinehub.exception.user.MismatchPasswordException;
+import com.sparta.headlinehub.exception.user.UserNotFindException;
 import com.sparta.headlinehub.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -28,9 +29,8 @@ public class UserService {
         // 이메일 중복 확인
         boolean overlap = repository.existsByEmail(requestDto.getEmail());
         if (overlap) {
-            throw new IllegalArgumentException("이미 사용중인 ID 입니다.");
+            throw new DuplicateEmailException("이미 사용중인 ID 입니다.");
         }
-
 
         // 비밀번호 암호화
         String pw = encode.encode(requestDto.getPw());
@@ -52,7 +52,7 @@ public class UserService {
 
         // 유저 이메일 가져오기
         User user = repository.findByEmail(userEmail).orElseThrow(
-                () -> new NoSuchElementException("유저가 없습니다."));
+                () -> new UserNotFindException("유저가 없습니다."));
 
         // 비밀번호 확인
         checkPw(userPw, user.getPw());
@@ -86,7 +86,7 @@ public class UserService {
     /* 비밀번호 확인 */
     private void checkPw(String userPw, String enPw) {
         if (!encode.matches(userPw, enPw)) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new MismatchPasswordException("비밀번호가 일치하지 않습니다.");
         }
     }
 }

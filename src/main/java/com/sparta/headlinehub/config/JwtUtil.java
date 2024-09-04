@@ -31,6 +31,7 @@ public class JwtUtil {
         key = Keys.hmacShaKeyFor(bytes);
     }
 
+    /* 토큰 생성 */
     public String createToken(Long userId, String email) {
         Date date = new Date();
 
@@ -44,6 +45,7 @@ public class JwtUtil {
                         .compact();
     }
 
+    /* 순수 토큰 추출 */
     public String substringToken(String tokenValue) {
         if (StringUtils.hasText(tokenValue) && tokenValue.startsWith(BEARER_PREFIX)) {
             return tokenValue.substring(7);
@@ -52,6 +54,7 @@ public class JwtUtil {
         throw new NullPointerException("Not Found Token");
     }
 
+    /* JWT 안에 있는 데이터를 추출 */
     public Claims extractClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
