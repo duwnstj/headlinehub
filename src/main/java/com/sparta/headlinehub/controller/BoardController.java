@@ -1,15 +1,19 @@
 package com.sparta.headlinehub.controller;
 
+import com.sparta.headlinehub.annotation.Auth;
+import com.sparta.headlinehub.dto.AuthUser;
 import com.sparta.headlinehub.dto.board.request.PostSaveRequestDto;
 import com.sparta.headlinehub.dto.board.request.PostUpdateRequestDto;
 import com.sparta.headlinehub.dto.board.response.GetDetailResponseDto;
 import com.sparta.headlinehub.dto.board.response.PostSaveResponseDto;
 import com.sparta.headlinehub.dto.board.response.PostUpdateResponseDto;
 import com.sparta.headlinehub.service.BoardService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/boards")
 public class BoardController {
@@ -27,10 +31,11 @@ public class BoardController {
      * @return 게시물 제목
      */
     @PostMapping
-    public ResponseEntity<PostSaveResponseDto> saveBoard(@RequestBody PostSaveRequestDto requestDto) {
-
-        return ResponseEntity.ok(boardService.saveBoard(requestDto));
-
+    public ResponseEntity<PostSaveResponseDto> saveBoard(
+            @RequestBody PostSaveRequestDto requestDto,
+            @Auth AuthUser user) {
+        log.info("user.getId : " + user.getId());
+        return ResponseEntity.ok(boardService.saveBoard(user ,requestDto));
 
     }
 
@@ -41,12 +46,12 @@ public class BoardController {
      * @return userDto.userName(이름) ,title(제목),content(내용),creationdate,modifieddate
      * @Param page, size(페이지), userId(유저 고유 아이디)
      */
-    @GetMapping("/users/{userId}/param")
+    @GetMapping("/param")
     public ResponseEntity<Page<GetDetailResponseDto>> getUsersBoards(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
-            @PathVariable Long userId) {
-        return ResponseEntity.ok(boardService.getUsersBoards(page, size, userId));
+            @Auth AuthUser authUser) {
+        return ResponseEntity.ok(boardService.getUsersBoards(page, size, authUser));
     }
 
     /**
@@ -56,28 +61,30 @@ public class BoardController {
      * @return title, content,userName
      * @Param boardId(게시물 고유번호), requestDto(title, content)
      */
-    @PutMapping("/{boardId}/users/{userId}")
+    @PutMapping("/{boardId}")
     public ResponseEntity<PostUpdateResponseDto> updateBoard(
             @PathVariable Long boardId,
-            @PathVariable Long userId,
+            @Auth AuthUser authUser,
             @RequestBody PostUpdateRequestDto requestDto
-             ) {
+    ) {
 
-        return ResponseEntity.ok(boardService.updateboard(boardId, userId, requestDto));
+        return ResponseEntity.ok(boardService.updateboard(boardId, authUser, requestDto));
     }
+
     /**
      * 게시물 삭제
      * 조건 : 게시물 작성한 사람만 삭제 가능함
-     *
+     * <p>
      * //
+     *
      * @Param userId
      */
 
-    @DeleteMapping("/{boardId}/users/{userId}")
+    @DeleteMapping("/{boardId}")
     public void deleteBoard(
             @PathVariable Long boardId,
-            @PathVariable Long userId){
-        boardService.deleteBoard(boardId,userId);
+            @Auth AuthUser authUser) {
+        boardService.deleteBoard(boardId, authUser);
     }
 
 }
