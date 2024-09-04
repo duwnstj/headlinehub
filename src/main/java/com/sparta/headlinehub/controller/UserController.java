@@ -1,6 +1,9 @@
 package com.sparta.headlinehub.controller;
 
+import com.sparta.headlinehub.dto.user.request.DeleteUserRequestDto;
+import com.sparta.headlinehub.dto.user.request.PostUserLoginRequestDto;
 import com.sparta.headlinehub.dto.user.request.PostUserSaveRequestDto;
+import com.sparta.headlinehub.dto.user.response.PostUserLoginResponseDto;
 import com.sparta.headlinehub.dto.user.response.PostUserSaveResponseDto;
 import com.sparta.headlinehub.service.UserService;
 import jakarta.validation.Valid;
@@ -24,7 +27,15 @@ public class UserController {
         return service.saveUser(requestDto);
     }
 
-    // 회원 로그인
+    /**
+     * 로그인
+     * @param requestDto 유저 이메일, 유저 비밀번호
+     * @return 로그인 한 유저 이메일, JWT 토큰 값
+     */
+    @PostMapping("/logins")
+    public PostUserLoginResponseDto loginUser(@Valid @RequestBody PostUserLoginRequestDto requestDto) {
+        return service.loginUser(requestDto);
+    }
 
     /**
      * 회원 탈퇴
@@ -32,7 +43,7 @@ public class UserController {
      * @return 삭제 성공한 유저 아이디
      */
     @DeleteMapping("/{id}")
-    public Long deleteUser(@PathVariable Long id) {
-        return service.deleteUser(id);
+    public Long deleteUser(@PathVariable Long id, @RequestBody DeleteUserRequestDto requestDto) {
+        return service.deleteUser(id, requestDto);
     }
 }
