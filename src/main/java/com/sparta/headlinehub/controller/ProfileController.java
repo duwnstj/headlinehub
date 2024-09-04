@@ -1,5 +1,7 @@
 package com.sparta.headlinehub.controller;
 
+import com.sparta.headlinehub.annotation.Auth;
+import com.sparta.headlinehub.dto.AuthUser;
 import com.sparta.headlinehub.dto.profile.request.PutProfileUpdateRequestDto;
 import com.sparta.headlinehub.dto.profile.response.GetProfileDetailResponseDto;
 import com.sparta.headlinehub.dto.profile.response.PutProfileUpdateResponseDto;
@@ -16,13 +18,13 @@ public class ProfileController {
 
 
     @GetMapping("/{userId}")
-    public GetProfileDetailResponseDto getProfile(@PathVariable Long userId){
-        return profileService.getDetailProfile(userId);
+    public GetProfileDetailResponseDto getProfile(@Auth AuthUser authUser){
+        return profileService.getDetailProfile(authUser);
     }
 
     @PutMapping("/{userId}/changePassword")
-    public PutProfileUpdateResponseDto updateProfile(@PathVariable Long userId ,@RequestBody PutProfileUpdateRequestDto requestDto){
-        return profileService.updatePassword(userId,requestDto);
+    public PutProfileUpdateResponseDto updateProfile(@Auth AuthUser authUser, @RequestBody PutProfileUpdateRequestDto requestDto){
+        return profileService.updatePassword(authUser,requestDto);
     }
 
 }

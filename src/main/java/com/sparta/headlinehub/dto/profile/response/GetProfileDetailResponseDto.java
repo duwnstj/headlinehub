@@ -9,13 +9,14 @@ import java.util.List;
 
 @Getter
 public class GetProfileDetailResponseDto {
+
+    private final List<GetProfileSimpleResponseDto> posts;
     private final String userName;
     private final String email;
     private final String phoneNumber;
-    private final List<GetDetailResponseDto> posts;
 
 
-    public GetProfileDetailResponseDto(User user, List<GetDetailResponseDto> boardsList) {
+    public GetProfileDetailResponseDto(User user, List<GetProfileSimpleResponseDto> boardsList) {
         this.userName = user.getUserName();
         this.email = user.getEmail();
         this.phoneNumber = user.getPhoneNumber();

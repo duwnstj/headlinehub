@@ -5,7 +5,9 @@ import lombok.Getter;
 @Getter
 public class PutProfileUpdateResponseDto {
 
-    private String pw;
+    private final String userName;
 
-
+    public PutProfileUpdateResponseDto(String userName){
+        this.userName = userName;
+    }
 }

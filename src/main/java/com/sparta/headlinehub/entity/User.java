@@ -41,6 +41,7 @@ public class  User extends Timestamped{
         this.phoneNumber = requestDto.getPhoneNumber();
     }
 
-    public void update(){
+    public void update(String pw){
+        this.pw = pw;
     }
 }
