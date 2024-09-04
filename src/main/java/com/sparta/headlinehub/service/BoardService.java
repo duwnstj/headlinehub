@@ -6,7 +6,6 @@ import com.sparta.headlinehub.dto.board.request.PostUpdateRequestDto;
 import com.sparta.headlinehub.dto.board.response.GetDetailResponseDto;
 import com.sparta.headlinehub.dto.board.response.PostSaveResponseDto;
 import com.sparta.headlinehub.dto.board.response.PostUpdateResponseDto;
-import com.sparta.headlinehub.dto.user.UserDto;
 import com.sparta.headlinehub.entity.Board;
 import com.sparta.headlinehub.entity.User;
 import com.sparta.headlinehub.exception.InvalidPrivilegeException;
@@ -59,7 +58,7 @@ public class BoardService {
         return boards.map(newboard -> {
             User user = newboard.getUser();
             return new GetDetailResponseDto(
-                    new UserDto(user.getUserName()),
+                    user.getUserName(),
                     newboard.getContent(),
                     newboard.getTitle(),
                     newboard.getCreationDate(),
