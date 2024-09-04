@@ -48,8 +48,8 @@ public class ProfileService {
         Long userId = authUser.getId();
         User user = findUser(userId);
 
-        if(!user.getPw().equals(requestDto.getPw())){
-            throw new IncorrectPasswordException("비밀번호가 잘못되었습니다.");
+        if(!encode.matches(requestDto.getPw(),user.getPw())){
+              throw new IncorrectPasswordException("비밀번호가 잘못되었습니다.");
         }
         String pw = encode.encode(requestDto.getPw());
         user.update(pw);

@@ -17,12 +17,12 @@ public class ProfileController {
     private final ProfileService profileService;
 
 
-    @GetMapping("/{userId}")
+    @GetMapping
     public GetProfileDetailResponseDto getProfile(@Auth AuthUser authUser){
         return profileService.getDetailProfile(authUser);
     }
 
-    @PutMapping("/{userId}/changePassword")
+    @PutMapping("/changePassword")
     public PutProfileUpdateResponseDto updateProfile(@Auth AuthUser authUser, @RequestBody PutProfileUpdateRequestDto requestDto){
         return profileService.updatePassword(authUser,requestDto);
     }
