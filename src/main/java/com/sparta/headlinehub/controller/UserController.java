@@ -1,5 +1,7 @@
 package com.sparta.headlinehub.controller;
 
+import com.sparta.headlinehub.annotation.Auth;
+import com.sparta.headlinehub.dto.AuthUser;
 import com.sparta.headlinehub.dto.user.request.DeleteUserRequestDto;
 import com.sparta.headlinehub.dto.user.request.PostUserLoginRequestDto;
 import com.sparta.headlinehub.dto.user.request.PostUserSaveRequestDto;
@@ -33,17 +35,17 @@ public class UserController {
      * @return 로그인 한 유저 이메일, JWT 토큰 값
      */
     @PostMapping("/logins")
-    public PostUserLoginResponseDto loginUser(@Valid @RequestBody PostUserLoginRequestDto requestDto) {
+    public PostUserLoginResponseDto loginUser(@RequestBody PostUserLoginRequestDto requestDto) {
         return service.loginUser(requestDto);
     }
 
     /**
-     * 회원 탈퇴
-     * @param id 삭제할 유저 아이디값
+     * 회원 탈퇴 (수정 필요)
+     * @param id 삭제할 유저 아이디값, 비밀번호
      * @return 삭제 성공한 유저 아이디
      */
-    @DeleteMapping("/{id}")
-    public Long deleteUser(@PathVariable Long id, @RequestBody DeleteUserRequestDto requestDto) {
-        return service.deleteUser(id, requestDto);
+    @DeleteMapping("/withdrawals")
+    public Long deleteUser(@Auth AuthUser authUser, @RequestBody DeleteUserRequestDto requestDto) {
+        return service.deleteUser(authUser, requestDto);
     }
 }
