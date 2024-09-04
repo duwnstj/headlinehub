@@ -46,7 +46,7 @@ public class UserController {
      * @param requestDto 유저 비밀번호
      * @return 회원 탈퇴한 유저 ID
      */
-    @DeleteMapping("/withdrawals")
+    @DeleteMapping("/user-removes")
     public Long deleteUser(@Auth AuthUser authUser, @RequestBody DeleteUserRequestDto requestDto) {
         return service.deleteUser(authUser, requestDto);
     }
