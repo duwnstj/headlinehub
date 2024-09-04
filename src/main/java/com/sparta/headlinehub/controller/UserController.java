@@ -26,7 +26,8 @@ public class UserController {
      */
     @PostMapping()
     public PostUserSaveResponseDto saveUser(@Valid @RequestBody PostUserSaveRequestDto requestDto) {
-        return service.saveUser(requestDto);
+
+       return service.saveUser(requestDto);
     }
 
     /**
@@ -41,11 +42,11 @@ public class UserController {
 
     /**
      * 회원 탈퇴
-     * @param authUser 유저 ID, 유저 이메일
+     * @param authUser 유저 아이디, 유저 이메일
      * @param requestDto 유저 비밀번호
-     * @return 삭제된 유저 ID
+     * @return 회원 탈퇴한 유저 ID
      */
-    @DeleteMapping("/user-remove")
+    @DeleteMapping("/withdrawals")
     public Long deleteUser(@Auth AuthUser authUser, @RequestBody DeleteUserRequestDto requestDto) {
         return service.deleteUser(authUser, requestDto);
     }
