@@ -40,6 +40,7 @@ public class UserService {
 
         User saveUser = repository.save(user);
 
+
         PostUserSaveResponseDto responseDto = new PostUserSaveResponseDto(saveUser);
 
         return responseDto;
@@ -68,8 +69,10 @@ public class UserService {
 
     /* 회원 탈퇴 */
     public Long deleteUser(AuthUser authUser, DeleteUserRequestDto requestDto) {
+
         // 아이디 확인
         User user = findIdUser(authUser.getId());
+
         // 비밀번호 확인
         String userPw = requestDto.getPw();
         checkPw(userPw, user.getPw());

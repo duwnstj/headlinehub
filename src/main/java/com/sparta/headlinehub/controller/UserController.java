@@ -40,11 +40,12 @@ public class UserController {
     }
 
     /**
-     * 회원 탈퇴 (수정 필요)
-     * @param id 삭제할 유저 아이디값, 비밀번호
-     * @return 삭제 성공한 유저 아이디
+     * 회원 탈퇴
+     * @param authUser 유저 ID, 유저 이메일
+     * @param requestDto 유저 비밀번호
+     * @return 삭제된 유저 ID
      */
-    @DeleteMapping("/withdrawals")
+    @DeleteMapping("/user-remove")
     public Long deleteUser(@Auth AuthUser authUser, @RequestBody DeleteUserRequestDto requestDto) {
         return service.deleteUser(authUser, requestDto);
     }
