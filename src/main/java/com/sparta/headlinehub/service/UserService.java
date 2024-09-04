@@ -2,6 +2,7 @@ package com.sparta.headlinehub.service;
 
 import com.sparta.headlinehub.config.JwtUtil;
 import com.sparta.headlinehub.config.PasswordEncoder;
+import com.sparta.headlinehub.dto.AuthUser;
 import com.sparta.headlinehub.dto.user.request.DeleteUserRequestDto;
 import com.sparta.headlinehub.dto.user.request.PostUserLoginRequestDto;
 import com.sparta.headlinehub.dto.user.request.PostUserSaveRequestDto;
@@ -67,16 +68,18 @@ public class UserService {
     }
 
     /* 회원 탈퇴 */
-    public Long deleteUser(Long id, DeleteUserRequestDto requestDto) {
+    public Long deleteUser(AuthUser authUser, DeleteUserRequestDto requestDto) {
+
         // 아이디 확인
-        User user = findIdUser(id);
+        User user = findIdUser(authUser.getId());
+
         // 비밀번호 확인
         String userPw = requestDto.getPw();
         checkPw(userPw, user.getPw());
 
         repository.delete(user);
 
-        return id;
+        return authUser.getId();
     }
 
     /* 유저 고유 번호 찾기 */
