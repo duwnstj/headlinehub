@@ -21,9 +21,10 @@ public class Board extends Timestamped {
     private String title;
     private String content;
 
-    public Board(String title, String content) {
+    public Board(String title, String content , User user) {
         this.title = title;
         this.content =content;
+        this.user = user;
 
     }
 
