@@ -12,7 +12,7 @@ import java.util.List;
 @Table(name = "user")
 @Getter
 @NoArgsConstructor
-public class User extends Timestamped{
+public class  User extends Timestamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,5 +39,9 @@ public class User extends Timestamped{
         this.pw = pw;
         this.userName = requestDto.getUserName();
         this.phoneNumber = requestDto.getPhoneNumber();
+    }
+
+    public void update(String pw){
+        this.pw = pw;
     }
 }
