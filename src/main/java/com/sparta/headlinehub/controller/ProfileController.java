@@ -6,6 +6,7 @@ import com.sparta.headlinehub.dto.profile.request.PutProfileUpdateRequestDto;
 import com.sparta.headlinehub.dto.profile.response.GetProfileDetailResponseDto;
 import com.sparta.headlinehub.dto.profile.response.PutProfileUpdateResponseDto;
 import com.sparta.headlinehub.service.ProfileService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +24,7 @@ public class ProfileController {
     }
 
     @PutMapping("/changePassword")
-    public PutProfileUpdateResponseDto updateProfile(@Auth AuthUser authUser, @RequestBody PutProfileUpdateRequestDto requestDto){
+    public PutProfileUpdateResponseDto updateProfile(@Auth AuthUser authUser, @Valid @RequestBody PutProfileUpdateRequestDto requestDto){
         return profileService.updatePassword(authUser,requestDto);
     }
 
