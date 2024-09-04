@@ -27,11 +27,11 @@ public class  User extends Timestamped{
     List<Board> boardList = new ArrayList<>();
 
     /* 팔로잉 */
-    @OneToMany(mappedBy = "following")
+    @OneToMany(mappedBy = "following", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     List<Follow> followingList = new ArrayList<>();
 
     /* 팔로워 */
-    @OneToMany(mappedBy = "follower")
+    @OneToMany(mappedBy = "follower", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     List<Follow> followerList = new ArrayList<>();
 
     public User(PostUserSaveRequestDto requestDto, String pw) {
