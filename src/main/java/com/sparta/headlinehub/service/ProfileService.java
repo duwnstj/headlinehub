@@ -25,7 +25,6 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class ProfileService {
 
-    private final ProfileRepository profileRepository;
     private final UserRepository userRepository;
     private final BoardRepository boardRepository;
     private final PasswordEncoder encode;
