@@ -1,7 +1,5 @@
 package com.sparta.headlinehub.dto.profile.response;
 
-import com.sparta.headlinehub.dto.board.response.GetDetailResponseDto;
-import com.sparta.headlinehub.entity.Board;
 import com.sparta.headlinehub.entity.User;
 import lombok.Getter;
 

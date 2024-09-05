@@ -12,7 +12,6 @@ import com.sparta.headlinehub.exception.profile.IncorrectPasswordException;
 import com.sparta.headlinehub.exception.profile.SamePasswordException;
 import com.sparta.headlinehub.exception.user.UserNotFindException;
 import com.sparta.headlinehub.repository.BoardRepository;
-import com.sparta.headlinehub.repository.ProfileRepository;
 import com.sparta.headlinehub.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
