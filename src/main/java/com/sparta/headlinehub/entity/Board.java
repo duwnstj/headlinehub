@@ -19,6 +19,7 @@ public class Board extends Timestamped {
     private String content;
 
     @OneToMany(mappedBy = "board", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OrderBy("modifiedDate DESC")
     private List<Comment> comments = new ArrayList<>();
 
     public Board(String title, String content , User user) {
