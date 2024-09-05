@@ -2,6 +2,7 @@ package com.sparta.headlinehub.service;
 
 import com.sparta.headlinehub.dto.AuthUser;
 import com.sparta.headlinehub.dto.comment.request.PostSaveCommentRequestDto;
+import com.sparta.headlinehub.dto.comment.response.GetCommentListResponseDto;
 import com.sparta.headlinehub.dto.comment.response.PostSaveCommentResponseDto;
 import com.sparta.headlinehub.entity.Board;
 import com.sparta.headlinehub.entity.Comment;
@@ -14,6 +15,8 @@ import com.sparta.headlinehub.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -48,10 +51,14 @@ public class CommentService {
         );
 
     }
-//    public List<GetCommentListResponseDto> getComment(Long boardId) {
-//        Board board = findboard(boardId); //PathVariable 에서 boardId를 가져와서 일치하는 board객체를 찾아 저장한다.
-//
-//    }
+
+    /* 댓글 조회 */
+    public List<GetCommentListResponseDto> getComment(Long boardId) {
+        return commentRepository.findAllByBoardIdOrderByModifiedDateDesc(boardId)
+                .stream()
+                .map(GetCommentListResponseDto::new)
+                .toList();
+    }
 
     /* 댓글 삭제 */
     @Transactional

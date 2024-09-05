@@ -6,12 +6,15 @@ import com.sparta.headlinehub.dto.board.request.PostUpdateRequestDto;
 import com.sparta.headlinehub.dto.board.response.GetDetailResponseDto;
 import com.sparta.headlinehub.dto.board.response.PostSaveResponseDto;
 import com.sparta.headlinehub.dto.board.response.PostUpdateResponseDto;
+import com.sparta.headlinehub.dto.comment.response.GetCommentListResponseDto;
 import com.sparta.headlinehub.entity.Board;
+import com.sparta.headlinehub.entity.Comment;
 import com.sparta.headlinehub.entity.Follow;
 import com.sparta.headlinehub.entity.User;
 import com.sparta.headlinehub.exception.InvalidPrivilegeException;
 import com.sparta.headlinehub.exception.ResourceNotFoundException;
 import com.sparta.headlinehub.repository.BoardRepository;
+import com.sparta.headlinehub.repository.CommentRepository;
 import com.sparta.headlinehub.repository.FollowRepository;
 import com.sparta.headlinehub.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +35,7 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
     private final FollowRepository followRepository;
+    private final CommentRepository commentRepository;
 
     // 게시물 저장
     @Transactional
@@ -69,7 +73,8 @@ public class BoardService {
                 newboard.getContent(),
                 newboard.getTitle(),
                 newboard.getCreationDate(),
-                newboard.getModifiedDate())
+                newboard.getModifiedDate(),
+                newboard.getComments().stream().map(GetCommentListResponseDto::new).toList())
         );
     }
 
@@ -89,8 +94,6 @@ public class BoardService {
                 board.getTitle(),
                 board.getContent()
         );
-
-
     }
 
     //게시물 삭제
