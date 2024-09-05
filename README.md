@@ -5,7 +5,8 @@
 
 - - -
 ## ERD
-![ERD](https://github.com/user-attachments/assets/0bc98ce0-c665-4686-80c4-d367c9651af4)
+<img width="997" alt="스크린샷 2024-09-06 오전 3 01 08" src="https://github.com/user-attachments/assets/7ae57364-876f-4a55-a346-ad72918bff6a">
+
 - - -
 ## API 명세서
 ### [유저 API](https://documenter.getpostman.com/view/37572363/2sAXjQ2ATy)
