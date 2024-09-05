@@ -6,6 +6,7 @@ import com.sparta.headlinehub.dto.board.request.PostUpdateRequestDto;
 import com.sparta.headlinehub.dto.board.response.GetDetailResponseDto;
 import com.sparta.headlinehub.dto.board.response.PostSaveResponseDto;
 import com.sparta.headlinehub.dto.board.response.PostUpdateResponseDto;
+import com.sparta.headlinehub.dto.comment.response.GetCommentListResponseDto;
 import com.sparta.headlinehub.entity.Board;
 import com.sparta.headlinehub.entity.Follow;
 import com.sparta.headlinehub.entity.User;
@@ -70,7 +71,8 @@ public class BoardService {
                 newboard.getContent(),
                 newboard.getTitle(),
                 newboard.getCreationDate(),
-                newboard.getModifiedDate())
+                newboard.getModifiedDate(),
+                newboard.getComments().stream().map(GetCommentListResponseDto::new).toList())
         );
     }
 
@@ -85,13 +87,10 @@ public class BoardService {
                 requestDto.getTitle(),
                 requestDto.getContent()
         );
-
         return new PostUpdateResponseDto(
                 board.getTitle(),
                 board.getContent()
         );
-
-
     }
 
     //게시물 삭제

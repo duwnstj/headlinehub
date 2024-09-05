@@ -16,9 +16,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    /* 유저를 찾지 못했을 때 (상태코드 400) */
-    @ExceptionHandler(UserNotFindException.class)
-    public ResponseEntity<String> handlerUserNotFindException(UserNotFindException e) {
+
+    /* 유저를 찾지 못했을 때, 스스로 팔로잉을 했을때, 같은 비밀번호로 변경, 게시물을 찾지 못했을 때 (상태코드 400) */
+    @ExceptionHandler({
+            UserNotFindException.class,
+            WrongFollowingException.class,
+            SamePasswordException.class,
+            ResourceNotFoundException.class
+    })
+    public ResponseEntity<String> handlerBadRequestException(RuntimeException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
@@ -28,46 +34,21 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
     }
 
-    /* 이메일 중복 (상태코드 409) */
-    @ExceptionHandler(DuplicateEmailException.class)
-    public ResponseEntity<String> handlerDuplicateIdException(DuplicateEmailException e) {
+    /* 이메일 중복, 팔로잉 중복 (상태코드 409) */
+    @ExceptionHandler({
+            DuplicateEmailException.class,
+            DuplicateFollowingException.class
+    })
+    public ResponseEntity<String> handlerDuplicateIdException(RuntimeException e) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
 
-    /* 스스로를 팔로잉 (상태코드 400) */
-    @ExceptionHandler(WrongFollowingException.class)
-    public ResponseEntity<String> handlerWrongFollowingException(WrongFollowingException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-    }
-
-    /* 팔로잉 중복 (상태코드 409) */
-    @ExceptionHandler(DuplicateFollowingException.class)
-    public ResponseEntity<String> handlerDuplicateFollowingException(DuplicateFollowingException e) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-    }
-
-    /* 댓글 삭제 권한 없음 (상태코드 403) */
-    @ExceptionHandler(RightDeleteCommentException.class)
-    public ResponseEntity<String> handlerRightDeleteCommentException(RightDeleteCommentException e) {
+    /* 댓글 삭제 권한 없음, 권한이 없을 경우 (상태코드 403) */
+    @ExceptionHandler({
+            RightDeleteCommentException.class,
+            AccessDeniedException.class
+    })
+    public ResponseEntity<String> handlerRightDeleteCommentException(RuntimeException e) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
     }
-
-    /* 같은 비밀번호로 변경(상태코드 400) */
-    @ExceptionHandler(SamePasswordException.class)
-    public ResponseEntity<String> handlerSamePasswordException(SamePasswordException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-    }
-
-    /* 게시물을 찾지 못했을 때*/
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<String> handlerBoardNotFoundException(ResourceNotFoundException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-    }
-
-    /*권한이 없을 경우 (상태코드 403)*/
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<String> handlerAccessDeniedException(AccessDeniedException e) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
-    }
-
 }
