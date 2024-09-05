@@ -1,7 +1,7 @@
 package com.sparta.headlinehub.exception;
 
 import com.sparta.headlinehub.exception.board.AccessDeniedException;
-import com.sparta.headlinehub.exception.board.BoardNotFoundException;
+import com.sparta.headlinehub.exception.board.ResourceNotFoundException;
 import com.sparta.headlinehub.exception.comment.RightDeleteCommentException;
 import com.sparta.headlinehub.exception.follow.DuplicateFollowingException;
 import com.sparta.headlinehub.exception.follow.WrongFollowingException;
@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
             UserNotFindException.class,
             WrongFollowingException.class,
             SamePasswordException.class,
-            BoardNotFoundException.class
+            ResourceNotFoundException.class
     })
     public ResponseEntity<String> handlerBadRequestException(RuntimeException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
