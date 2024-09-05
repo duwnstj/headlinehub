@@ -1,5 +1,6 @@
 package com.sparta.headlinehub.exception;
 
+import com.sparta.headlinehub.exception.comment.RightDeleteCommentException;
 import com.sparta.headlinehub.exception.follow.DuplicateFollowingException;
 import com.sparta.headlinehub.exception.follow.WrongFollowingException;
 import com.sparta.headlinehub.exception.user.DuplicateEmailException;
@@ -40,5 +41,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DuplicateFollowingException.class)
     public ResponseEntity<String> handlerDuplicateFollowingException(DuplicateFollowingException e) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+    }
+
+    /* 댓글 삭제 권한 없음 (상태코드 403) */
+    @ExceptionHandler(RightDeleteCommentException.class)
+    public ResponseEntity<String> handlerRightDeleteCommentException(RightDeleteCommentException e) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
     }
 }

@@ -15,6 +15,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long userId;
     private String userName;
     private String comment;
 
@@ -25,7 +26,9 @@ public class Comment {
 
 
     public Comment(User user,String comment,Board board){
+        this.userId = user.getId();
         this.userName = user.getUserName();
         this.comment = comment;
+        this.board = board;
    }
 }

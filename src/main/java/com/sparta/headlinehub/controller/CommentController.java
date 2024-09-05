@@ -31,4 +31,9 @@ public class CommentController {
 //        return commentService.getComment(boardId);
 //    }
 
+    // 댓글 삭제
+    @DeleteMapping("/{boardId}/comments/{commentId}/removes")
+    public Long deleteComment(@Auth AuthUser authUser, @PathVariable Long boardId, @PathVariable Long commentId) {
+        return commentService.deleteComment(authUser, boardId, commentId);
+    }
 }
