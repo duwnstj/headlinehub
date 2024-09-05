@@ -19,14 +19,12 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-
     private final UserRepository repository;
     private final PasswordEncoder encode;
     private final JwtUtil jwtUtil;
 
     /* 회원 가입 */
     public PostUserSaveResponseDto saveUser(PostUserSaveRequestDto requestDto) {
-
         // 이메일 중복 확인
         boolean overlap = repository.existsByEmail(requestDto.getEmail());
         if (overlap) {
@@ -39,7 +37,6 @@ public class UserService {
         User user = new User(requestDto, pw);
 
         User saveUser = repository.save(user);
-
 
         PostUserSaveResponseDto responseDto = new PostUserSaveResponseDto(saveUser);
 
@@ -69,7 +66,6 @@ public class UserService {
 
     /* 회원 탈퇴 */
     public Long deleteUser(AuthUser authUser, DeleteUserRequestDto requestDto) {
-
         // 아이디 확인
         User user = findIdUser(authUser.getId());
 

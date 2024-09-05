@@ -8,8 +8,6 @@ import java.time.LocalDateTime;
 @Getter
 @RequiredArgsConstructor
 public class GetDetailResponseDto {
-
-
     private final String userName;
     private final String title;
     private final String content;

@@ -9,12 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Table(name = "comment")
-public class Comment {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Comment extends Timestamped {
     private Long userId;
     private String userName;
     private String comment;
@@ -22,8 +17,6 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;
-
-
 
     public Comment(User user,String comment,Board board){
         this.userId = user.getId();

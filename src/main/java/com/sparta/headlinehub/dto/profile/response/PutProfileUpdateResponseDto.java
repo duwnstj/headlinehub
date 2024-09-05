@@ -4,7 +4,6 @@ import lombok.Getter;
 
 @Getter
 public class PutProfileUpdateResponseDto {
-
     private final String userName;
 
     public PutProfileUpdateResponseDto(String userName){
