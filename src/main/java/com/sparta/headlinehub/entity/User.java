@@ -13,6 +13,13 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class User extends Timestamped {
+    @Column(name = "email", unique = true)
+    private String email;
+    private String pw;
+    private String userName;
+
+    @Column(name = "phoneNumber", unique = true)
+    private String phoneNumber;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     List<Board> boardList = new ArrayList<>();
@@ -24,14 +31,6 @@ public class User extends Timestamped {
     /* 팔로워 */
     @OneToMany(mappedBy = "follower", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     List<Follow> followerList = new ArrayList<>();
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(name = "email", unique = true)
-    private String email;
-    private String pw;
-    private String userName;
-    private String phoneNumber;
 
     public User(PostUserSaveRequestDto requestDto, String pw) {
         this.email = requestDto.getEmail();

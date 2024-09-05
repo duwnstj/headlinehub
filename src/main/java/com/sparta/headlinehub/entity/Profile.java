@@ -9,16 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "profile")
 public class Profile extends Timestamped{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long profileId;
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "boardId")
     private Board board;
-
-//test
 
 }
