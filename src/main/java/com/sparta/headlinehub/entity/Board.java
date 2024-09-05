@@ -8,12 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class Board extends Timestamped {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "board_id")
-    private Long id;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -25,7 +19,6 @@ public class Board extends Timestamped {
         this.title = title;
         this.content =content;
         this.user = user;
-
     }
 
     public void update(String title, String content) {

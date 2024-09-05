@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 
 @Getter
 public class GetProfileSimpleResponseDto {
-
     private final String title;
     private final String content;
     private final LocalDateTime creationDate;

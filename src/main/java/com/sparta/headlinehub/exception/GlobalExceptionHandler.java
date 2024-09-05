@@ -2,6 +2,7 @@ package com.sparta.headlinehub.exception;
 
 import com.sparta.headlinehub.exception.board.AccessDeniedException;
 import com.sparta.headlinehub.exception.board.BoardNotFoundException;
+import com.sparta.headlinehub.exception.comment.RightDeleteCommentException;
 import com.sparta.headlinehub.exception.follow.DuplicateFollowingException;
 import com.sparta.headlinehub.exception.follow.WrongFollowingException;
 import com.sparta.headlinehub.exception.profile.SamePasswordException;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
     /* 유저를 찾지 못했을 때 (상태코드 400) */
     @ExceptionHandler(UserNotFindException.class)
     public ResponseEntity<String> handlerUserNotFindException(UserNotFindException e) {
@@ -44,6 +44,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DuplicateFollowingException.class)
     public ResponseEntity<String> handlerDuplicateFollowingException(DuplicateFollowingException e) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+    }
+
+    /* 댓글 삭제 권한 없음 (상태코드 403) */
+    @ExceptionHandler(RightDeleteCommentException.class)
+    public ResponseEntity<String> handlerRightDeleteCommentException(RightDeleteCommentException e) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
     }
 
     /* 같은 비밀번호로 변경(상태코드 400) */

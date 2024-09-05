@@ -20,7 +20,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class FollowService {
-
     private final FollowRepository followRepository;
     private final UserRepository userRepository;
 
@@ -101,7 +100,7 @@ public class FollowService {
         }
 
         // entity 객체 가져오기
-        Follow follow = new Follow(my, user);
+        Follow follow = followRepository.findByFollowingIdAndFollowerId(my.getId(), user.getId());
 
         //삭제
         followRepository.delete(follow);

@@ -7,8 +7,6 @@ import lombok.Getter;
 @Getter
 public class PostUserSaveResponseDto {
     private String userName;
-
-    @JsonIgnore //json으로 반환 되지 않는다.
     private String token;
 
     public PostUserSaveResponseDto(User user) {

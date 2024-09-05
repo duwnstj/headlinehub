@@ -53,7 +53,27 @@ public class CommentService {
 //
 //    }
 
+    /* 댓글 삭제 */
+    @Transactional
+    public Long deleteComment(AuthUser authUser, Long boardId, Long commentId) {
+        // 유저 인증 (댓글 작성자 or 게시판 작성자)
+        User user = findUser(authUser.getId());
 
+        // 댓글 찾기
+        Comment comment = commentRepository.findByBoardIdAndId(boardId, commentId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시물의 해당 댓글을 찾지 못했습니다."));
+
+        // 게시판 찾기
+        Board board = comment.getBoard();
+
+        // 댓글 작성자 or 게시판 작성자가 아니라면 예외처리
+        checkAuth(user.getId(), comment.getUserId(), board.getUser().getId());
+
+        // 댓글 삭제
+        commentRepository.delete(comment);
+
+        return commentId;
+    }
 
     private User findUser(Long userId) {
         return userRepository.findById(userId).orElseThrow(
@@ -66,5 +86,9 @@ public class CommentService {
                 .orElseThrow(() -> new BoardNotFoundException("게시물을 찾을 수 없습니다."));
     }
 
-
+    private void checkAuth(Long userId, Long commentUserId, Long boardUserId) {
+        if(!userId.equals(commentUserId) && !userId.equals(boardUserId)) {
+            throw new IllegalArgumentException("삭제 권한이 없습니다.");
+        }
+    }
 }
