@@ -7,10 +7,12 @@ import com.sparta.headlinehub.dto.board.response.GetDetailResponseDto;
 import com.sparta.headlinehub.dto.board.response.PostSaveResponseDto;
 import com.sparta.headlinehub.dto.board.response.PostUpdateResponseDto;
 import com.sparta.headlinehub.entity.Board;
+import com.sparta.headlinehub.entity.Follow;
 import com.sparta.headlinehub.entity.User;
 import com.sparta.headlinehub.exception.InvalidPrivilegeException;
 import com.sparta.headlinehub.exception.ResourceNotFoundException;
 import com.sparta.headlinehub.repository.BoardRepository;
+import com.sparta.headlinehub.repository.FollowRepository;
 import com.sparta.headlinehub.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,7 +21,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +31,7 @@ import java.util.Objects;
 public class BoardService {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
+    private final FollowRepository followRepository;
 
     // 게시물 저장
     @Transactional
@@ -51,20 +56,27 @@ public class BoardService {
     //유저 게시물 전체 조회
     public Page<GetDetailResponseDto> getUsersBoards(int page, int size, AuthUser authuser) {
         Pageable pageable = PageRequest.of(page - 1, size);
+        User user = findUser(authuser.getId());
+        Long userId = user.getId();
 
-        Long userId = authuser.getId();
+        List<Follow> followList = followRepository.findByFollowingId(userId);
 
-        Page<Board> boards = boardRepository.findByUserIdOrderByCreationDateDesc(userId, pageable);
-        return boards.map(newboard -> {
-            User user = newboard.getUser();
-            return new GetDetailResponseDto(
-                    user.getUserName(),
-                    newboard.getContent(),
-                    newboard.getTitle(),
-                    newboard.getCreationDate(),
-                    newboard.getModifiedDate()
-            );
-        });
+
+        List<Long > userIds = followList.stream().map(follow -> follow.getFollower().getId()).collect(Collectors.toList());
+        userIds.add(userId);
+
+        // boards.for문으로 한번씩 실행시킨다.
+        //
+
+        Page<Board> boards = boardRepository.findByUserIdInOrderByCreationDateDesc(userIds, pageable);
+        return boards.map(newboard -> new GetDetailResponseDto(
+                newboard.getUser().getUserName(),
+                newboard.getContent(),
+                newboard.getTitle(),
+                newboard.getCreationDate(),
+                newboard.getModifiedDate())
+        );
+
     }
 
     //게시물 수정
