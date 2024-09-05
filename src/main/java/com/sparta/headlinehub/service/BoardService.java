@@ -8,13 +8,12 @@ import com.sparta.headlinehub.dto.board.response.PostSaveResponseDto;
 import com.sparta.headlinehub.dto.board.response.PostUpdateResponseDto;
 import com.sparta.headlinehub.dto.comment.response.GetCommentListResponseDto;
 import com.sparta.headlinehub.entity.Board;
-import com.sparta.headlinehub.entity.Comment;
 import com.sparta.headlinehub.entity.Follow;
 import com.sparta.headlinehub.entity.User;
-import com.sparta.headlinehub.exception.InvalidPrivilegeException;
-import com.sparta.headlinehub.exception.ResourceNotFoundException;
+import com.sparta.headlinehub.exception.board.AccessDeniedException;
+import com.sparta.headlinehub.exception.board.BoardNotFoundException;
+import com.sparta.headlinehub.exception.user.UserNotFindException;
 import com.sparta.headlinehub.repository.BoardRepository;
-import com.sparta.headlinehub.repository.CommentRepository;
 import com.sparta.headlinehub.repository.FollowRepository;
 import com.sparta.headlinehub.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +34,6 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
     private final FollowRepository followRepository;
-    private final CommentRepository commentRepository;
 
     // 게시물 저장
     @Transactional
@@ -89,7 +87,6 @@ public class BoardService {
                 requestDto.getTitle(),
                 requestDto.getContent()
         );
-
         return new PostUpdateResponseDto(
                 board.getTitle(),
                 board.getContent()
@@ -109,19 +106,19 @@ public class BoardService {
     // userId에 해당하는 유저 객체 찾기
     private User findUser(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("user를 찾을 수 없습니다."));
+                .orElseThrow(() -> new UserNotFindException("user를 찾을 수 없습니다."));
     }
 
     // boardId에 해당하는 게시물 객체 찾기
     private Board findboard(Long boardId) {
         return boardRepository.findById(boardId)
-                .orElseThrow(() -> new ResourceNotFoundException("게시물을 찾을 수 없습니다."));
+                .orElseThrow(() -> new BoardNotFoundException("게시물을 찾을 수 없습니다."));
     }
 
     // 게시물 작성한 사람인지 검증하는 메서드
     private void right(Long boardUserId, Long userId, String msg) {
         if (!Objects.equals(boardUserId, userId)) {
-            throw new InvalidPrivilegeException(msg);
+            throw new AccessDeniedException(msg);
         }
     }
 }

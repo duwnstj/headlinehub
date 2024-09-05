@@ -18,10 +18,15 @@ public class Comment extends Timestamped {
     @JoinColumn(name = "board_id")
     private Board board;
 
+
+
     public Comment(User user,String comment,Board board){
         this.userId = user.getId();
         this.userName = user.getUserName();
         this.comment = comment;
         this.board = board;
+   }
+   public void update(String comment){
+        this.comment = comment ;
    }
 }

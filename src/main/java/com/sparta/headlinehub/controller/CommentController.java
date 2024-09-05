@@ -4,7 +4,9 @@ import com.sparta.headlinehub.annotation.Auth;
 import com.sparta.headlinehub.dto.AuthUser;
 import com.sparta.headlinehub.dto.comment.request.PostSaveCommentRequestDto;
 import com.sparta.headlinehub.dto.comment.response.GetCommentListResponseDto;
+import com.sparta.headlinehub.dto.comment.request.PutUpdateCommentRequestDto;
 import com.sparta.headlinehub.dto.comment.response.PostSaveCommentResponseDto;
+import com.sparta.headlinehub.dto.comment.response.PutUpdateCommentResponseDto;
 import com.sparta.headlinehub.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/boards")
 public class CommentController {
+
     private final CommentService commentService;
 
     /**
@@ -31,7 +34,7 @@ public class CommentController {
             @PathVariable Long boardId,
             @RequestBody PostSaveCommentRequestDto requestDto,
             @Auth AuthUser authUser) {
-        return ResponseEntity.ok(commentService.saveComment(boardId ,authUser, requestDto));
+        return ResponseEntity.ok(commentService.saveComment(boardId, authUser, requestDto));
 
     }
 
@@ -43,6 +46,17 @@ public class CommentController {
     @GetMapping("/{boardId}/comments")
     public ResponseEntity<List<GetCommentListResponseDto>> getComment(@PathVariable Long boardId){
         return ResponseEntity.ok(commentService.getComment(boardId));
+    }
+
+    // 댓글 수정
+    @PutMapping("/{boardId}/comments/{commentId}/updates")
+    public ResponseEntity<PutUpdateCommentResponseDto> updateComment(
+            @RequestBody PutUpdateCommentRequestDto requestDto,
+            @PathVariable Long boardId,
+            @PathVariable Long commentId,
+            @Auth AuthUser authUser
+    ) {
+        return ResponseEntity.ok(commentService.updateComment(requestDto,boardId,commentId,authUser));
     }
 
     /**

@@ -3,11 +3,14 @@ package com.sparta.headlinehub.service;
 import com.sparta.headlinehub.dto.AuthUser;
 import com.sparta.headlinehub.dto.comment.request.PostSaveCommentRequestDto;
 import com.sparta.headlinehub.dto.comment.response.GetCommentListResponseDto;
+import com.sparta.headlinehub.dto.comment.request.PutUpdateCommentRequestDto;
 import com.sparta.headlinehub.dto.comment.response.PostSaveCommentResponseDto;
+import com.sparta.headlinehub.dto.comment.response.PutUpdateCommentResponseDto;
 import com.sparta.headlinehub.entity.Board;
 import com.sparta.headlinehub.entity.Comment;
 import com.sparta.headlinehub.entity.User;
-import com.sparta.headlinehub.exception.ResourceNotFoundException;
+import com.sparta.headlinehub.exception.board.BoardNotFoundException;
+import com.sparta.headlinehub.exception.comment.RightDeleteCommentException;
 import com.sparta.headlinehub.exception.user.UserNotFindException;
 import com.sparta.headlinehub.repository.BoardRepository;
 import com.sparta.headlinehub.repository.CommentRepository;
@@ -22,7 +25,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CommentService {
-
     private final UserRepository userRepository;
     private final BoardRepository boardRepository;
     private final CommentRepository commentRepository;
@@ -50,6 +52,26 @@ public class CommentService {
                 comment.getComment()
         );
 
+    }
+
+    //댓글 수정
+    @Transactional
+    public PutUpdateCommentResponseDto updateComment(PutUpdateCommentRequestDto requestDto, Long boardId, Long commentId, AuthUser authUser) {
+        //유저 인증 (댓글 작성자 or 게시판 작성자
+        User user = findUser(authUser.getId());
+
+        //댓글 찾기
+        Comment comment = commentRepository.findByBoardIdAndId(boardId, commentId)
+                .orElseThrow(() -> new RightDeleteCommentException("해당 게시물의 해당 댓글을 찾지 못했습니다."));
+
+        // 댓글 작성자가 아니라면 예외처리
+       if(! user.getId().equals(comment.getUserId())){
+           throw new RightDeleteCommentException("댓글 수정 권한이 없습니다.");
+       }
+
+        comment.update(requestDto.getComment());
+
+        return new PutUpdateCommentResponseDto(comment.getComment());
     }
 
     /* 댓글 조회 */
@@ -90,12 +112,13 @@ public class CommentService {
 
     private Board findboard(Long boardId) {
         return boardRepository.findById(boardId)
-                .orElseThrow(() -> new ResourceNotFoundException("게시물을 찾을 수 없습니다."));
+                .orElseThrow(() -> new BoardNotFoundException("게시물을 찾을 수 없습니다."));
     }
 
-    private void checkAuth(Long userId, Long commentUserId, Long boardUserId) {
-        if(!userId.equals(commentUserId) && !userId.equals(boardUserId)) {
-            throw new IllegalArgumentException("삭제 권한이 없습니다.");
+    private void checkAuth(Long userId, Long commentUserId,
+                           Long boardUserId) {
+        if (!userId.equals(commentUserId) && !userId.equals(boardUserId)) {
+            throw new IllegalArgumentException("댓글 삭제 권한이 없습니다.");
         }
     }
 }
