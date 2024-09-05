@@ -23,7 +23,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ProfileService {
-
     private final UserRepository userRepository;
     private final BoardRepository boardRepository;
     private final PasswordEncoder encode;
@@ -40,7 +39,6 @@ public class ProfileService {
                         dto.getModifiedDate())).toList();
         return new GetProfileDetailResponseDto(user,dtoList);
     }
-
 
     //패스워드 수정
     @Transactional
@@ -67,5 +65,4 @@ public class ProfileService {
                 () -> new UserNotFindException("유저를 찾을 수 없습니다.")
         );
     }
-
 }

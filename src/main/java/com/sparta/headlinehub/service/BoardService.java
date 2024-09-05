@@ -49,7 +49,6 @@ public class BoardService {
         return new PostSaveResponseDto(
                 saveBoard.getTitle()
         );
-
     }
 
 
@@ -61,12 +60,8 @@ public class BoardService {
 
         List<Follow> followList = followRepository.findByFollowingId(userId);
 
-
         List<Long > userIds = followList.stream().map(follow -> follow.getFollower().getId()).collect(Collectors.toList());
         userIds.add(userId);
-
-        // boards.for문으로 한번씩 실행시킨다.
-        //
 
         Page<Board> boards = boardRepository.findByUserIdInOrderByCreationDateDesc(userIds, pageable);
         return boards.map(newboard -> new GetDetailResponseDto(
@@ -76,7 +71,6 @@ public class BoardService {
                 newboard.getCreationDate(),
                 newboard.getModifiedDate())
         );
-
     }
 
     //게시물 수정
@@ -102,7 +96,6 @@ public class BoardService {
     //게시물 삭제
     @Transactional
     public void deleteBoard(Long boardId, AuthUser authUser) {
-
         Long userId = authUser.getId();
         Board board = findboard(boardId);
         Long boardUserId = board.getUser().getId();
@@ -112,7 +105,6 @@ public class BoardService {
 
     // userId에 해당하는 유저 객체 찾기
     private User findUser(Long userId) {
-
         return userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("user를 찾을 수 없습니다."));
     }
@@ -125,11 +117,8 @@ public class BoardService {
 
     // 게시물 작성한 사람인지 검증하는 메서드
     private void right(Long boardUserId, Long userId, String msg) {
-
         if (!Objects.equals(boardUserId, userId)) {
             throw new InvalidPrivilegeException(msg);
         }
     }
-
-
 }
