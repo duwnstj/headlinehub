@@ -8,4 +8,5 @@ import lombok.RequiredArgsConstructor;
 public class PostUpdateResponseDto {
     private final String title;
     private final String content;
+
 }

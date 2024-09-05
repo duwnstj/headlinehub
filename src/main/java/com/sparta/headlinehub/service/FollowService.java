@@ -2,6 +2,8 @@ package com.sparta.headlinehub.service;
 
 import com.sparta.headlinehub.dto.AuthUser;
 import com.sparta.headlinehub.dto.follow.request.PostFollowingSaveRequestDto;
+import com.sparta.headlinehub.dto.follow.response.GetFollowerSimpleResponseDto;
+import com.sparta.headlinehub.dto.follow.response.GetFollowingSimpleResponseDto;
 import com.sparta.headlinehub.dto.follow.response.PostFollowingSaveResponseDto;
 import com.sparta.headlinehub.entity.Follow;
 import com.sparta.headlinehub.entity.User;
@@ -13,6 +15,8 @@ import com.sparta.headlinehub.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class FollowService {
@@ -20,6 +24,7 @@ public class FollowService {
     private final FollowRepository followRepository;
     private final UserRepository userRepository;
 
+    /* 팔로잉 기능 */
     public PostFollowingSaveResponseDto saveFollowing(AuthUser authUser, PostFollowingSaveRequestDto requestDto) {
         // 본인 인증
         Long userId = authUser.getId();
@@ -46,6 +51,62 @@ public class FollowService {
         PostFollowingSaveResponseDto responseDto = new PostFollowingSaveResponseDto(following);
 
         return responseDto;
+    }
+
+    /* 팔로잉 조회 */
+    public List<GetFollowingSimpleResponseDto> getFollowing(AuthUser authUser) {
+        // 유저 인증
+        User user = findUser(authUser.getId());
+
+        // 내가 팔로우 한 유저 가져오기
+        List<Follow> follows = followRepository.findAllByFollowingId(user.getId());
+
+        // DTO 변환
+        List<GetFollowingSimpleResponseDto> responseDtos = follows
+                .stream()
+                .map(GetFollowingSimpleResponseDto::new)
+                .toList();
+
+        return responseDtos;
+    }
+
+    /* 팔로워 조회 */
+    public List<GetFollowerSimpleResponseDto> getFollower(AuthUser authUser) {
+        // 유저 인증
+        User user = findUser(authUser.getId());
+
+        // 나를 팔로우 한 유저 가져오기
+        List<Follow> follows = followRepository.findAllByFollowerId(user.getId());
+
+        // DTO 변환
+        List<GetFollowerSimpleResponseDto> responseDtos = follows
+                .stream()
+                .map(GetFollowerSimpleResponseDto::new)
+                .toList();
+
+        return responseDtos;
+    }
+
+    /* 언팔로우 */
+    public Long deleteFollow(AuthUser authUser, Long followUserId) {
+        // 유저 인증
+        User my = findUser(authUser.getId());
+
+        // 언팔로우 할 유저
+        User user = findUser(followUserId);
+
+        // 팔로우 되어 있는지 확인
+        if(!checkRedundancy(my.getId(), user.getId())) {
+            throw new UserNotFindException("팔로우 되어 있지 않습니다.");
+        }
+
+        // entity 객체 가져오기
+        Follow follow = new Follow(my, user);
+
+        //삭제
+        followRepository.delete(follow);
+
+        return followUserId;
     }
 
     /* 유저 ID 찾기 */

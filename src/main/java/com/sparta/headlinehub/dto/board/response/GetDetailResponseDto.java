@@ -16,5 +16,4 @@ public class GetDetailResponseDto {
     private final LocalDateTime creationDate;
     private final LocalDateTime modifiedDate;
 
-
 }
