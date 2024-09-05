@@ -10,6 +10,7 @@ import com.sparta.headlinehub.dto.user.response.PostUserSaveResponseDto;
 import com.sparta.headlinehub.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,9 +26,9 @@ public class UserController {
      * @return 가입한 유저 이름
      */
     @PostMapping()
-    public PostUserSaveResponseDto saveUser(@Valid @RequestBody PostUserSaveRequestDto requestDto) {
+    public ResponseEntity<PostUserSaveResponseDto> saveUser(@Valid @RequestBody PostUserSaveRequestDto requestDto) {
 
-       return service.saveUser(requestDto);
+       return  ResponseEntity.ok(service.saveUser(requestDto));
     }
 
     /**
@@ -36,8 +37,8 @@ public class UserController {
      * @return 로그인 한 유저 이메일, JWT 토큰 값
      */
     @PostMapping("/logins")
-    public PostUserLoginResponseDto loginUser(@RequestBody PostUserLoginRequestDto requestDto) {
-        return service.loginUser(requestDto);
+    public ResponseEntity<PostUserLoginResponseDto> loginUser(@RequestBody PostUserLoginRequestDto requestDto) {
+        return ResponseEntity.ok(service.loginUser(requestDto));
     }
 
     /**
@@ -47,7 +48,7 @@ public class UserController {
      * @return 회원 탈퇴한 유저 ID
      */
     @DeleteMapping("/removes")
-    public Long deleteUser(@Auth AuthUser authUser, @RequestBody DeleteUserRequestDto requestDto) {
-        return service.deleteUser(authUser, requestDto);
+    public ResponseEntity<Long> deleteUser(@Auth AuthUser authUser, @RequestBody DeleteUserRequestDto requestDto) {
+        return ResponseEntity.ok(service.deleteUser(authUser, requestDto));
     }
 }

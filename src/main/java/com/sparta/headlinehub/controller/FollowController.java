@@ -8,6 +8,7 @@ import com.sparta.headlinehub.dto.follow.response.GetFollowingSimpleResponseDto;
 import com.sparta.headlinehub.dto.follow.response.PostFollowingSaveResponseDto;
 import com.sparta.headlinehub.service.FollowService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,11 +27,11 @@ public class FollowController {
      * @return 내 ID, 팔로우한 ID
      */
     @PostMapping("/following")
-    public PostFollowingSaveResponseDto saveFollowing(
+    public ResponseEntity<PostFollowingSaveResponseDto> saveFollowing(
             @Auth AuthUser authUser,
             @RequestBody PostFollowingSaveRequestDto requestDto
     ) {
-        return service.saveFollowing(authUser, requestDto);
+        return ResponseEntity.ok(service.saveFollowing(authUser, requestDto));
     }
 
     /**
@@ -39,8 +40,8 @@ public class FollowController {
      * @return 내가 팔로우 한 유저 ID, 내가 팔로우 한 유저 Name
      */
     @GetMapping("/following-list")
-    public List<GetFollowingSimpleResponseDto> getFollowing(@Auth AuthUser authUser) {
-        return service.getFollowing(authUser);
+    public  ResponseEntity<List<GetFollowingSimpleResponseDto>> getFollowing(@Auth AuthUser authUser) {
+        return ResponseEntity.ok(service.getFollowing(authUser));
     }
 
     /**
@@ -49,8 +50,8 @@ public class FollowController {
      * @return 나를 팔로우 한 유저 ID, 나를 팔로우 한 유저 Name
      */
     @GetMapping("/follower-list")
-    public List<GetFollowerSimpleResponseDto> getFollower(@Auth AuthUser authUser) {
-        return service.getFollower(authUser);
+    public ResponseEntity<List<GetFollowerSimpleResponseDto>> getFollower(@Auth AuthUser authUser) {
+        return ResponseEntity.ok(service.getFollower(authUser));
     }
 
     /**
@@ -60,7 +61,7 @@ public class FollowController {
      * @return 언팔로우한 유저 ID
      */
     @DeleteMapping("/unfollow/{followUserId}")
-    public Long deleteFollow(@Auth AuthUser authUser, @PathVariable Long followUserId) {
-        return service.deleteFollow(authUser, followUserId);
+    public ResponseEntity<Long> deleteFollow(@Auth AuthUser authUser, @PathVariable Long followUserId) {
+        return ResponseEntity.ok(service.deleteFollow(authUser, followUserId));
     }
 }
