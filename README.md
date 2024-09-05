@@ -1,6 +1,6 @@
 뉴스피드 HeadLine
 ==============================================
-## 와이어프레임
+## [와이어프레임](https://www.figma.com/design/Ag4YgsFQynbdNaenYYYcta/Untitled?node-id=0-1&t=DWR8nmeauQFKe7dT-1)
 ![와이어프레임](https://github.com/user-attachments/assets/c3aa924b-2b2b-4576-8926-8d6ca274f9d2)
 - - -
 ## ERD
