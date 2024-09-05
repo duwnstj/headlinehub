@@ -58,13 +58,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
-    /* 게시물을 찾지 못했을 때*/
+    /* 게시물을 찾지 못했을 때 */
     @ExceptionHandler(BoardNotFoundException.class)
     public ResponseEntity<String> handlerBoardNotFoundException(BoardNotFoundException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
-    /*권한이 없을 경우 (상태코드 403)*/
+    /* 권한이 없을 경우 (상태코드 403) */
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<String> handlerAccessDeniedException(AccessDeniedException e) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());

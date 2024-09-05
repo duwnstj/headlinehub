@@ -2,6 +2,7 @@ package com.sparta.headlinehub.service;
 
 import com.sparta.headlinehub.dto.AuthUser;
 import com.sparta.headlinehub.dto.comment.request.PostSaveCommentRequestDto;
+import com.sparta.headlinehub.dto.comment.response.GetCommentListResponseDto;
 import com.sparta.headlinehub.dto.comment.request.PutUpdateCommentRequestDto;
 import com.sparta.headlinehub.dto.comment.response.PostSaveCommentResponseDto;
 import com.sparta.headlinehub.dto.comment.response.PutUpdateCommentResponseDto;
@@ -9,6 +10,7 @@ import com.sparta.headlinehub.entity.Board;
 import com.sparta.headlinehub.entity.Comment;
 import com.sparta.headlinehub.entity.User;
 import com.sparta.headlinehub.exception.board.BoardNotFoundException;
+import com.sparta.headlinehub.exception.comment.RightDeleteCommentException;
 import com.sparta.headlinehub.exception.user.UserNotFindException;
 import com.sparta.headlinehub.repository.BoardRepository;
 import com.sparta.headlinehub.repository.CommentRepository;
@@ -17,11 +19,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CommentService {
-
     private final UserRepository userRepository;
     private final BoardRepository boardRepository;
     private final CommentRepository commentRepository;
@@ -59,19 +62,24 @@ public class CommentService {
 
         //댓글 찾기
         Comment comment = commentRepository.findByBoardIdAndId(boardId, commentId)
-                .orElseThrow(() -> new ResourceNotFoundException("해당 게시물의 해당 댓글을 찾지 못했습니다."));
-
-        //게시판 찾기
-        Board board = comment.getBoard();
+                .orElseThrow(() -> new RightDeleteCommentException("해당 게시물의 해당 댓글을 찾지 못했습니다."));
 
         // 댓글 작성자가 아니라면 예외처리
        if(! user.getId().equals(comment.getUserId())){
-           throw new IllegalArgumentException("댓글 수정 권한이 없습니다.");
+           throw new RightDeleteCommentException("댓글 수정 권한이 없습니다.");
        }
 
         comment.update(requestDto.getComment());
 
         return new PutUpdateCommentResponseDto(comment.getComment());
+    }
+
+    /* 댓글 조회 */
+    public List<GetCommentListResponseDto> getComment(Long boardId) {
+        return commentRepository.findAllByBoardIdOrderByModifiedDateDesc(boardId)
+                .stream()
+                .map(GetCommentListResponseDto::new)
+                .toList();
     }
 
     /* 댓글 삭제 */
@@ -113,6 +121,4 @@ public class CommentService {
             throw new IllegalArgumentException("댓글 삭제 권한이 없습니다.");
         }
     }
-
-
 }
