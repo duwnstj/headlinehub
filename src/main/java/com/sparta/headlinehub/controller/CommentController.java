@@ -48,7 +48,14 @@ public class CommentController {
         return ResponseEntity.ok(commentService.getComment(boardId));
     }
 
-    // 댓글 수정
+    /**
+     * 댓글 수정
+     * @param requestDto 수정할 댓글 내용
+     * @param boardId 게시판 ID
+     * @param commentId 댓글 ID
+     * @param authUser 유저 ID, 유저 이메일
+     * @return 수정된 댓글 내용
+     */
     @PutMapping("/{boardId}/comments/{commentId}/updates")
     public ResponseEntity<PutUpdateCommentResponseDto> updateComment(
             @RequestBody PutUpdateCommentRequestDto requestDto,
