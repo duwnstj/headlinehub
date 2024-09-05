@@ -1,10 +1,7 @@
 package com.sparta.headlinehub.service;
 
-import com.sparta.headlinehub.config.PasswordEncoder;
 import com.sparta.headlinehub.dto.AuthUser;
-import com.sparta.headlinehub.dto.board.response.PostSaveResponseDto;
 import com.sparta.headlinehub.dto.comment.request.PostSaveCommentRequestDto;
-import com.sparta.headlinehub.dto.comment.response.GetCommentListResponseDto;
 import com.sparta.headlinehub.dto.comment.response.PostSaveCommentResponseDto;
 import com.sparta.headlinehub.entity.Board;
 import com.sparta.headlinehub.entity.Comment;
@@ -15,11 +12,8 @@ import com.sparta.headlinehub.repository.BoardRepository;
 import com.sparta.headlinehub.repository.CommentRepository;
 import com.sparta.headlinehub.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

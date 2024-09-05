@@ -101,7 +101,7 @@ public class FollowService {
         }
 
         // entity 객체 가져오기
-        Follow follow = new Follow(my, user);
+        Follow follow = followRepository.findByFollowingIdAndFollowerId(my.getId(), user.getId());
 
         //삭제
         followRepository.delete(follow);
