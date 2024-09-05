@@ -1,9 +1,9 @@
 package com.sparta.headlinehub.exception.board;
 
-public class BoardNotFoundException extends RuntimeException {
+public class ResourceNotFoundException extends RuntimeException {
 
     // 리소스(자원)을 찾을 수 없을 때
-    public BoardNotFoundException(String message){
+    public ResourceNotFoundException(String message){
         super(message);
     }
 }

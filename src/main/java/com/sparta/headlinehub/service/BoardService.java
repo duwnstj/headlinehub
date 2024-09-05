@@ -10,7 +10,7 @@ import com.sparta.headlinehub.entity.Board;
 import com.sparta.headlinehub.entity.Follow;
 import com.sparta.headlinehub.entity.User;
 import com.sparta.headlinehub.exception.board.AccessDeniedException;
-import com.sparta.headlinehub.exception.board.BoardNotFoundException;
+import com.sparta.headlinehub.exception.board.ResourceNotFoundException;
 import com.sparta.headlinehub.exception.user.UserNotFindException;
 import com.sparta.headlinehub.repository.BoardRepository;
 import com.sparta.headlinehub.repository.FollowRepository;
@@ -113,7 +113,7 @@ public class BoardService {
     // boardId에 해당하는 게시물 객체 찾기
     private Board findboard(Long boardId) {
         return boardRepository.findById(boardId)
-                .orElseThrow(() -> new BoardNotFoundException("게시물을 찾을 수 없습니다."));
+                .orElseThrow(() -> new ResourceNotFoundException("게시물을 찾을 수 없습니다."));
     }
 
     // 게시물 작성한 사람인지 검증하는 메서드

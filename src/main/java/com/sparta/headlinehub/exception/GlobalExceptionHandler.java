@@ -1,7 +1,7 @@
 package com.sparta.headlinehub.exception;
 
 import com.sparta.headlinehub.exception.board.AccessDeniedException;
-import com.sparta.headlinehub.exception.board.BoardNotFoundException;
+import com.sparta.headlinehub.exception.board.ResourceNotFoundException;
 import com.sparta.headlinehub.exception.comment.RightDeleteCommentException;
 import com.sparta.headlinehub.exception.follow.DuplicateFollowingException;
 import com.sparta.headlinehub.exception.follow.WrongFollowingException;
@@ -59,8 +59,8 @@ public class GlobalExceptionHandler {
     }
 
     /* 게시물을 찾지 못했을 때*/
-    @ExceptionHandler(BoardNotFoundException.class)
-    public ResponseEntity<String> handlerBoardNotFoundException(BoardNotFoundException e) {
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<String> handlerBoardNotFoundException(ResourceNotFoundException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
