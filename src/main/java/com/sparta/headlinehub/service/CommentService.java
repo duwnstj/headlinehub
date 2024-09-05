@@ -1,25 +1,19 @@
 package com.sparta.headlinehub.service;
 
-import com.sparta.headlinehub.config.PasswordEncoder;
 import com.sparta.headlinehub.dto.AuthUser;
-import com.sparta.headlinehub.dto.board.response.PostSaveResponseDto;
 import com.sparta.headlinehub.dto.comment.request.PostSaveCommentRequestDto;
-import com.sparta.headlinehub.dto.comment.response.GetCommentListResponseDto;
 import com.sparta.headlinehub.dto.comment.response.PostSaveCommentResponseDto;
 import com.sparta.headlinehub.entity.Board;
 import com.sparta.headlinehub.entity.Comment;
 import com.sparta.headlinehub.entity.User;
-import com.sparta.headlinehub.exception.ResourceNotFoundException;
+import com.sparta.headlinehub.exception.board.BoardNotFoundException;
 import com.sparta.headlinehub.exception.user.UserNotFindException;
 import com.sparta.headlinehub.repository.BoardRepository;
 import com.sparta.headlinehub.repository.CommentRepository;
 import com.sparta.headlinehub.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -69,7 +63,7 @@ public class CommentService {
 
     private Board findboard(Long boardId) {
         return boardRepository.findById(boardId)
-                .orElseThrow(() -> new ResourceNotFoundException("게시물을 찾을 수 없습니다."));
+                .orElseThrow(() -> new BoardNotFoundException("게시물을 찾을 수 없습니다."));
     }
 
 
