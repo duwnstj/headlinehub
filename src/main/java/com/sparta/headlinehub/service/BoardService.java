@@ -65,16 +65,17 @@ public class BoardService {
         List<Long > userIds = followList.stream().map(follow -> follow.getFollower().getId()).collect(Collectors.toList());
         userIds.add(userId);
 
-
+        // boards.for문으로 한번씩 실행시킨다.
+        //
 
         Page<Board> boards = boardRepository.findByUserIdInOrderByCreationDateDesc(userIds, pageable);
         return boards.map(newboard -> new GetDetailResponseDto(
-                user.getUserName(),
+                newboard.getUser().getUserName(),
                 newboard.getContent(),
                 newboard.getTitle(),
                 newboard.getCreationDate(),
                 newboard.getModifiedDate())
-            );
+        );
 
     }
 
