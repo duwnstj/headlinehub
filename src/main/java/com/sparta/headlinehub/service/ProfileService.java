@@ -25,7 +25,6 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class ProfileService {
 
-    private final ProfileRepository profileRepository;
     private final UserRepository userRepository;
     private final BoardRepository boardRepository;
     private final PasswordEncoder encode;
@@ -43,7 +42,9 @@ public class ProfileService {
         return new GetProfileDetailResponseDto(user,dtoList);
     }
 
+
     //패스워드 수정
+    @Transactional
     public PutProfileUpdateResponseDto updatePassword(AuthUser authUser, PutProfileUpdateRequestDto requestDto) {
 
         Long userId = authUser.getId();
@@ -56,7 +57,7 @@ public class ProfileService {
         if(requestDto.getPw().equals(requestDto.getUpdatePw())){
             throw new SamePasswordException("현재 비밀번호와 같은 비밀번호 입니다.");
         }
-        String pw = encode.encode(requestDto.getPw());
+        String pw = encode.encode(requestDto.getUpdatePw());
         user.update(pw);
 
         return new PutProfileUpdateResponseDto(user.getUserName());
