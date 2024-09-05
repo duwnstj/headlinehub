@@ -21,6 +21,7 @@ public class User extends Timestamped {
     @Column(name = "phoneNumber", unique = true)
     private String phoneNumber;
 
+    /* 게시판 */
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Board> boardList = new ArrayList<>();
 
@@ -31,6 +32,10 @@ public class User extends Timestamped {
     /* 팔로워 */
     @OneToMany(mappedBy = "follower", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Follow> followerList = new ArrayList<>();
+
+    /* 댓글 */
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Comment> comments = new ArrayList<>();
 
     public User(PostUserSaveRequestDto requestDto, String pw) {
         this.email = requestDto.getEmail();

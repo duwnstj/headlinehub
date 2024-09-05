@@ -65,7 +65,7 @@ public class CommentService {
                 .orElseThrow(() -> new RightDeleteCommentException("해당 게시물의 해당 댓글을 찾지 못했습니다."));
 
         // 댓글 작성자가 아니라면 예외처리
-       if(! user.getId().equals(comment.getUserId())){
+       if(! user.getId().equals(comment.getUser().getId())){
            throw new RightDeleteCommentException("댓글 수정 권한이 없습니다.");
        }
 
@@ -96,7 +96,7 @@ public class CommentService {
         Board board = comment.getBoard();
 
         // 댓글 작성자 or 게시판 작성자가 아니라면 예외처리
-        checkAuth(user.getId(), comment.getUserId(), board.getUser().getId());
+        checkAuth(user.getId(), comment.getUser().getId(), board.getUser().getId());
 
         // 댓글 삭제
         commentRepository.delete(comment);

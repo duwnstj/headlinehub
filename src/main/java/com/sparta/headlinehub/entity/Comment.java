@@ -10,7 +10,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @Table(name = "comment")
 public class Comment extends Timestamped {
-    private Long userId;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     private String userName;
     private String comment;
 
@@ -21,7 +25,7 @@ public class Comment extends Timestamped {
 
 
     public Comment(User user,String comment,Board board){
-        this.userId = user.getId();
+        this.user = user;
         this.userName = user.getUserName();
         this.comment = comment;
         this.board = board;
