@@ -8,11 +8,13 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @Getter
+@Table(name = "comment")
 public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String userName;
     private String comment;
 
@@ -20,9 +22,10 @@ public class Comment {
     @JoinColumn(name = "board_id")
     private Board board;
 
+
+
     public Comment(User user,String comment,Board board){
         this.userName = user.getUserName();
         this.comment = comment;
-        this.board = board;
-    }
+   }
 }
