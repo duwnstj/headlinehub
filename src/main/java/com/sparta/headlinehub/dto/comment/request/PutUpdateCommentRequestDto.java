@@ -4,4 +4,6 @@ import lombok.Getter;
 
 @Getter
 public class PutUpdateCommentRequestDto {
+
+    private String comment;
 }

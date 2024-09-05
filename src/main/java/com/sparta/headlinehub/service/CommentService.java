@@ -2,7 +2,9 @@ package com.sparta.headlinehub.service;
 
 import com.sparta.headlinehub.dto.AuthUser;
 import com.sparta.headlinehub.dto.comment.request.PostSaveCommentRequestDto;
+import com.sparta.headlinehub.dto.comment.request.PutUpdateCommentRequestDto;
 import com.sparta.headlinehub.dto.comment.response.PostSaveCommentResponseDto;
+import com.sparta.headlinehub.dto.comment.response.PutUpdateCommentResponseDto;
 import com.sparta.headlinehub.entity.Board;
 import com.sparta.headlinehub.entity.Comment;
 import com.sparta.headlinehub.entity.User;
@@ -48,10 +50,29 @@ public class CommentService {
         );
 
     }
-//    public List<GetCommentListResponseDto> getComment(Long boardId) {
-//        Board board = findboard(boardId); //PathVariable 에서 boardId를 가져와서 일치하는 board객체를 찾아 저장한다.
-//
-//    }
+
+    //댓글 수정
+    @Transactional
+    public PutUpdateCommentResponseDto updateComment(PutUpdateCommentRequestDto requestDto, Long boardId, Long commentId, AuthUser authUser) {
+        //유저 인증 (댓글 작성자 or 게시판 작성자
+        User user = findUser(authUser.getId());
+
+        //댓글 찾기
+        Comment comment = commentRepository.findByBoardIdAndId(boardId, commentId)
+                .orElseThrow(() -> new ResourceNotFoundException("해당 게시물의 해당 댓글을 찾지 못했습니다."));
+
+        //게시판 찾기
+        Board board = comment.getBoard();
+
+        // 댓글 작성자가 아니라면 예외처리
+       if(! user.getId().equals(comment.getUserId())){
+           throw new IllegalArgumentException("댓글 수정 권한이 없습니다.");
+       }
+
+        comment.update(requestDto.getComment());
+
+        return new PutUpdateCommentResponseDto(comment.getComment());
+    }
 
     /* 댓글 삭제 */
     @Transactional
@@ -86,9 +107,12 @@ public class CommentService {
                 .orElseThrow(() -> new BoardNotFoundException("게시물을 찾을 수 없습니다."));
     }
 
-    private void checkAuth(Long userId, Long commentUserId, Long boardUserId) {
-        if(!userId.equals(commentUserId) && !userId.equals(boardUserId)) {
-            throw new IllegalArgumentException("삭제 권한이 없습니다.");
+    private void checkAuth(Long userId, Long commentUserId,
+                           Long boardUserId) {
+        if (!userId.equals(commentUserId) && !userId.equals(boardUserId)) {
+            throw new IllegalArgumentException("댓글 삭제 권한이 없습니다.");
         }
     }
+
+
 }
