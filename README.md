@@ -13,7 +13,7 @@
 ### [친구 관리 API](https://documenter.getpostman.com/view/37572363/2sAXjQ2AYF)
 ![친구 관리 API](https://github.com/user-attachments/assets/31447eba-e7bc-49ca-8068-763e3a20807a)
 - - -
-### 프로필 API
+### [프로필 API](https://documenter.getpostman.com/view/37615804/2sAXjQ2Vwp)
 ![프로필 API](https://github.com/user-attachments/assets/3036a363-41ff-44d8-b288-a79634b19fc0)
 - - -
 ### [게시물 API](https://documenter.getpostman.com/view/37566103/2sAXjQ2ATx)
