@@ -1,7 +1,7 @@
 뉴스피드 HeadLine
 ==============================================
 ## [와이어프레임](https://www.figma.com/design/Ag4YgsFQynbdNaenYYYcta/Untitled?node-id=0-1&t=DWR8nmeauQFKe7dT-1)
-<img width="921" alt="스크린샷 2024-09-06 오전 2 19 17" src="https://github.com/user-attachments/assets/73fc4b3e-82e2-44ba-8385-a6cfc4b9fc3d">
+<img width="880" alt="image" src="https://github.com/user-attachments/assets/45b7c67d-9c39-43bc-9844-4853bd09e144">
 
 - - -
 ## ERD
