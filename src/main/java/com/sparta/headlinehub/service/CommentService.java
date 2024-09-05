@@ -9,7 +9,7 @@ import com.sparta.headlinehub.dto.comment.response.PutUpdateCommentResponseDto;
 import com.sparta.headlinehub.entity.Board;
 import com.sparta.headlinehub.entity.Comment;
 import com.sparta.headlinehub.entity.User;
-import com.sparta.headlinehub.exception.board.BoardNotFoundException;
+import com.sparta.headlinehub.exception.board.ResourceNotFoundException;
 import com.sparta.headlinehub.exception.comment.RightDeleteCommentException;
 import com.sparta.headlinehub.exception.user.UserNotFindException;
 import com.sparta.headlinehub.repository.BoardRepository;
@@ -112,7 +112,7 @@ public class CommentService {
 
     private Board findboard(Long boardId) {
         return boardRepository.findById(boardId)
-                .orElseThrow(() -> new BoardNotFoundException("게시물을 찾을 수 없습니다."));
+                .orElseThrow(() -> new ResourceNotFoundException("게시물을 찾을 수 없습니다."));
     }
 
     private void checkAuth(Long userId, Long commentUserId,
