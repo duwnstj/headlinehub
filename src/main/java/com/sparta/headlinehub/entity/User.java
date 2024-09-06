@@ -21,6 +21,10 @@ public class User extends Timestamped {
     @Column(name = "phoneNumber", unique = true)
     private String phoneNumber;
 
+    /* 프로필 */
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Profile profile;
+
     /* 게시판 */
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Board> boardList = new ArrayList<>();

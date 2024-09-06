@@ -13,4 +13,7 @@ public class Profile extends Timestamped{
     @JoinColumn(name = "boardId")
     private Board board;
 
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }
